@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1
+
+- Fixed the **Live stack preview** camera platform not loading in Home Assistant.
+- Added local PenguAstro brand assets (`icon.png` / `logo.png`, including 2x and dark variants) for Home Assistant 2026.3+.
+- Added clearer README instructions for locating the live-stack camera and adding it to a dashboard.
+- Clarified that the DWARFLAB HTTP stacking stream is primarily intended for the tele-photo Astro stack.
+
 ## 0.1.0
 
 - Initial PenguAstro release.

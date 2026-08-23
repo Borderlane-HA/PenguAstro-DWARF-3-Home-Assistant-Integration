@@ -1,12 +1,16 @@
 # 🔭 PenguAstro – DWARF 3 Home Assistant Integration
 
+<p align="center">
+  <img src="custom_components/penguastro/brand/logo.png" alt="PenguAstro" width="560">
+</p>
+
 **PenguAstro** is an unofficial Home Assistant integration for the **DWARFLAB DWARF 3 Smart Telescope**. It brings useful telescope status information and a periodically refreshed **live-stack preview** into Home Assistant without trying to replace the official DWARFLAB app.
 
 > PenguAstro is an independent community project and is not affiliated with, authorized by, or endorsed by DWARFLAB.
 
 ## Features
 
-PenguAstro v0.1.0 is intentionally focused on **monitoring**.
+PenguAstro v0.1.1 is intentionally focused on **monitoring**.
 
 - GUI setup – no YAML required
 - Local IP address entered during setup
@@ -18,6 +22,7 @@ PenguAstro v0.1.0 is intentionally focused on **monitoring**.
 - Short-lived WebSocket status connection instead of a permanently connected control client
 - Cached live-stack preview from the DWARF 3 local stack-image endpoint
 - English and German UI translations
+- Local PenguAstro icon and logo assets for the Home Assistant UI
 
 ### Entities
 
@@ -38,7 +43,18 @@ Each configured DWARF 3 creates one Home Assistant device with these entities:
 | Focus position | Current focus motor position |
 | Live stack preview | Cached JPEG preview of the currently building astro stack |
 
-The live-stack camera does **not** open a permanent video stream in Home Assistant. While Tele or Wide stacking is active, PenguAstro tries to fetch one current JPEG from `http://<DWARF-IP>:8092/mainstream` on every update cycle and keeps the last successful image in memory. When stacking stops, the last successful preview remains visible. This gives a dashboard view that gradually improves as the telescope adds more frames.
+The live-stack camera does **not** open a permanent video stream in Home Assistant. While stacking is active, PenguAstro tries to fetch one current JPEG from `http://<DWARF-IP>:8092/mainstream` on every update cycle and keeps the last successful image in memory. When stacking stops, the last successful preview remains visible. This gives a dashboard view that gradually improves as the telescope adds more frames. DWARFLAB documents this HTTP stack stream primarily for the tele-photo Astro stack.
+
+### Finding the live-stack image in Home Assistant
+
+PenguAstro creates a **camera entity** named **Live stack preview** (`camera.*_live_stack_preview`). After installing or updating the integration, restart Home Assistant so the camera platform is loaded.
+
+- Open **Settings → Devices & services → PenguAstro → your DWARF 3**.
+- The **Live stack preview** entity should be listed with the device.
+- You can also find it under **Settings → Devices & services → Entities** by searching for `live_stack_preview`.
+- To show it on a dashboard, add a **Picture Entity** / camera card and select the PenguAstro live-stack camera.
+
+Before the first successful Astro stacking image is received, the entity exists but may have no picture to display. Once stacking is running, the cached image is refreshed with the configured PenguAstro update interval (60 seconds by default).
 
 ## Network requirements
 
@@ -78,7 +94,7 @@ PenguAstro therefore deliberately does **not** keep port `9900` open:
 
 With the default 60-second interval, the WebSocket is normally open only very briefly. Even so, a short overlap with the official app is still possible. If the DWARFLAB app behaves strangely while PenguAstro is enabled, increase the PenguAstro update interval or temporarily disable/reload the integration while actively controlling the telescope.
 
-PenguAstro v0.1.0 sends **no motor, focus, camera, GoTo, stacking-start/stop or power-control commands**.
+PenguAstro v0.1.1 sends **no motor, focus, camera, GoTo, stacking-start/stop or power-control commands**.
 
 ## HACS installation
 
@@ -136,7 +152,7 @@ For that reason, and because the DWARF local APIs are designed for trusted local
 
 ## Compatibility
 
-PenguAstro v0.1.0 targets **Home Assistant 2026.6 or newer**. Initial development and protocol validation were performed against a **DWARF 3 running firmware 1.5.2**. The community SDK used as a protocol reference reports real-hardware verification for DWARF 3 firmware 1.5.x.
+PenguAstro v0.1.1 targets **Home Assistant 2026.6 or newer**. Initial development and protocol validation were performed against a **DWARF 3 running firmware 1.5.2**. The community SDK used as a protocol reference reports real-hardware verification for DWARF 3 firmware 1.5.x.
 
 The DWARF protocol is not an official public API and may change with future firmware. If a firmware update breaks PenguAstro, please open an issue and include the DWARF firmware version and Home Assistant version.
 

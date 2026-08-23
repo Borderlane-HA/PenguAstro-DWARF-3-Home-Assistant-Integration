@@ -46,11 +46,6 @@ class PenguAstroLiveStackCamera(CoordinatorEntity[PenguAstroCoordinator], Camera
             sw_version=entry.data.get("firmware"),
         )
 
-    @property
-    def content_type(self) -> str:
-        """Return cached image content type."""
-        return "image/jpeg"
-
     async def async_camera_image(
         self, width: int | None = None, height: int | None = None
     ) -> bytes | None:

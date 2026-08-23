@@ -1,12 +1,14 @@
 {
   "domain": "penguastro",
   "name": "PenguAstro",
-  "codeowners": ["@Borderlane-HA"],
+  "codeowners": [
+    "@Borderlane-HA"
+  ],
   "config_flow": true,
   "documentation": "https://github.com/Borderlane-HA/PenguAstro-DWARF-3-Home-Assistant-Integration",
   "issue_tracker": "https://github.com/Borderlane-HA/PenguAstro-DWARF-3-Home-Assistant-Integration/issues",
   "integration_type": "device",
   "iot_class": "local_polling",
   "requirements": [],
-  "version": "0.1.0"
+  "version": "0.1.1"
 }
