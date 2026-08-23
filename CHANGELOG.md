@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.3.1
+
+Documentation-focused release.
+
+### Added
+
+- Current Home Assistant device overview screenshot.
+- Diagnostics screenshot.
+- Integration update-interval options screenshot.
+- Absolute GitHub raw image URLs so screenshots also render inside HACS.
+- Prominent README note explaining temporary PenguAstro access loss while the official DWARFLAB app is actively connected.
+- Ready-to-copy Home Assistant automation example that sends the current Astro stack preview to a mobile device every 30 minutes while stacking is active.
+
+### Changed
+
+- Clarified that the default polling/live-stack-preview interval is 60 seconds and can be changed in the PenguAstro integration settings.
+- Clarified that users can open the official DWARFLAB app at any time; PenguAstro will retry automatically on a later poll.
+- Added the full GitHub repository URL near the top of the README.
+
+### Code
+
+- No integration runtime behavior changed from v0.3.0.
+
 ## 0.3.0
 
 Combined Monitoring+ and Astro Dashboard release.

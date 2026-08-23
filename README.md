@@ -4,13 +4,18 @@ PenguAstro is a local, read-only Home Assistant integration for the **DWARFLAB D
 
 It brings telescope status, battery and temperature monitoring, Astro session information, stacking progress when available, normal Tele/Wide live streams, and a progressively updated live-stack preview into Home Assistant.
 
-Repository: **Borderlane-HA/PenguAstro-DWARF-3-Home-Assistant-Integration**
+Repository: https://github.com/Borderlane-HA/PenguAstro-DWARF-3-Home-Assistant-Integration
 
 > PenguAstro is an independent community project. It is not affiliated with, authorized by, or endorsed by DWARFLAB.
 
-## Highlights in v0.3.0
+> [!IMPORTANT]
+> **DWARFLAB app and PenguAstro access:** When the official DWARFLAB app has an active connection to the DWARF 3, Home Assistant/PenguAstro may temporarily be unable to read the telescope. You can open and use the DWARFLAB app at any time; PenguAstro simply misses that poll and resumes automatically on a later update after the app releases the connection. PenguAstro does not keep a permanent control connection open.
+>
+> PenguAstro polls by default every **60 seconds**. The interval can be changed later in **Settings → Devices & services → PenguAstro → Configure** (30–3600 seconds).
 
-v0.3.0 combines the planned Monitoring+ and Astro Dashboard stages into one release.
+## Highlights in v0.3.1
+
+v0.3.1 keeps the v0.3 monitoring and Astro Dashboard feature set and adds improved documentation, screenshots, clearer app-coexistence guidance, and a ready-to-copy mobile notification example.
 
 - GUI setup using the local DWARF 3 IP address
 - IP address can be changed later with Home Assistant **Reconfigure**
@@ -40,6 +45,22 @@ v0.3.0 combines the planned Monitoring+ and Astro Dashboard stages into one rele
 - Sanitized Home Assistant diagnostics download
 - English and German UI translations
 - Local PenguAstro icon/logo assets for the Home Assistant UI
+
+## Screenshots
+
+The screenshots use absolute GitHub raw URLs so they are also visible when HACS renders this README.
+
+### Device overview
+
+![PenguAstro device overview](https://raw.githubusercontent.com/Borderlane-HA/PenguAstro-DWARF-3-Home-Assistant-Integration/main/images/penguastro-device-overview.png)
+
+### Diagnostics
+
+![PenguAstro diagnostics](https://raw.githubusercontent.com/Borderlane-HA/PenguAstro-DWARF-3-Home-Assistant-Integration/main/images/penguastro-diagnostics.png)
+
+### Integration options
+
+![PenguAstro update interval options](https://raw.githubusercontent.com/Borderlane-HA/PenguAstro-DWARF-3-Home-Assistant-Integration/main/images/penguastro-options.png)
 
 ## Entities
 
@@ -188,9 +209,9 @@ If the DWARF 3 is in an IoT VLAN and Home Assistant is in another VLAN, allow **
 
 ## Important: interaction with the DWARFLAB app
 
-During development it was confirmed that a permanently connected third-party WebSocket client can interfere with the official DWARFLAB app.
+The DWARF 3 effectively gives one client control of the local WebSocket connection at a time. If the official DWARFLAB app is actively connected, PenguAstro may temporarily fail to read status data. This is expected and does **not** prevent you from using the app whenever you want. Home Assistant keeps the last known values and PenguAstro automatically tries again on the next polling cycle.
 
-PenguAstro therefore uses this model:
+During development it was also confirmed that a permanently connected third-party WebSocket client can interfere with the official DWARFLAB app. PenguAstro therefore uses this model:
 
 1. connect to port `9900`,
 2. send the read-only `TASK_GET_DEVICE_STATE_INFO` (`16405`) request,
@@ -240,7 +261,7 @@ PenguAstro verifies that the new address still belongs to the same DWARF 3 befor
 
 ## Change the update interval
 
-Open the PenguAstro integration entry and choose **Configure**. The interval can be set between **30 and 3600 seconds**. The default is **60 seconds**.
+Open the PenguAstro integration entry and choose **Configure**. The default update interval is **60 seconds** and can be changed at any time between **30 and 3600 seconds**.
 
 The same interval is used for status polling and live-stack preview refresh attempts.
 
@@ -267,6 +288,46 @@ A useful Astro dashboard can combine:
 
 The binary sensors also make it easy to display the live-stack card only while stacking is active.
 
+## Example: send the Astro stack image to your phone every 30 minutes
+
+The following Home Assistant automation sends the current cached **Live stack preview** to a mobile device every 30 minutes, but only while PenguAstro reports that stacking is active. GitHub and HACS show a **copy button** on the code block.
+
+Before using it, replace these placeholders with your actual entity/service IDs:
+
+- `binary_sensor.REPLACE_WITH_STACKING_ENTITY`
+- `camera.REPLACE_WITH_LIVE_STACK_PREVIEW`
+- `notify.mobile_app_REPLACE_WITH_YOUR_PHONE`
+
+```yaml
+alias: PenguAstro - Stack image every 30 minutes
+description: Send the current DWARF 3 Astro stack preview to a mobile device while stacking is active.
+triggers:
+  - trigger: time_pattern
+    minutes: "/30"
+conditions:
+  - condition: state
+    entity_id: binary_sensor.REPLACE_WITH_STACKING_ENTITY
+    state: "on"
+actions:
+  - action: camera.snapshot
+    target:
+      entity_id: camera.REPLACE_WITH_LIVE_STACK_PREVIEW
+    data:
+      filename: /media/penguastro_stack.jpg
+
+  - delay: "00:00:01"
+
+  - action: notify.mobile_app_REPLACE_WITH_YOUR_PHONE
+    data:
+      title: "PenguAstro"
+      message: "DWARF 3 is live stacking – here is the latest preview."
+      data:
+        image: /media/local/penguastro_stack.jpg
+mode: single
+```
+
+Home Assistant allows camera snapshots in the default `/media` directory. The Companion App can then attach the resulting `/media/local/penguastro_stack.jpg` image to the notification. If you have multiple DWARF 3 devices, use a different filename for each telescope.
+
 ## Diagnostics
 
 Home Assistant's **Download diagnostics** action is supported. PenguAstro diagnostics include integration version, firmware, current decoded status, session state and cached-image state.
@@ -285,7 +346,7 @@ Recommended setup:
 
 ## Compatibility
 
-PenguAstro v0.3.0 targets **Home Assistant 2026.6 or newer**.
+PenguAstro v0.3.1 targets **Home Assistant 2026.6 or newer**.
 
 Initial development and hardware protocol validation were performed against a **DWARF 3 running firmware 1.5.2**. The community SDK used as a protocol reference documents DWARF 3 hardware verification for firmware 1.5.x.
 
