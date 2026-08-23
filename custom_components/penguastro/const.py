@@ -4,7 +4,7 @@ from typing import Final
 
 DOMAIN: Final = "penguastro"
 NAME: Final = "PenguAstro"
-VERSION: Final = "0.1.0"
+VERSION: Final = "0.1.2"
 
 CONF_UPDATE_INTERVAL: Final = "update_interval"
 DEFAULT_UPDATE_INTERVAL: Final = 60

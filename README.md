@@ -10,7 +10,7 @@
 
 ## Features
 
-PenguAstro v0.1.1 is intentionally focused on **monitoring**.
+PenguAstro v0.1.2 is intentionally focused on **monitoring**.
 
 - GUI setup – no YAML required
 - Local IP address entered during setup
@@ -21,6 +21,8 @@ PenguAstro v0.1.1 is intentionally focused on **monitoring**.
 - The stack-image endpoint is queried only while Tele or Wide stacking is active; the last successful preview remains available afterwards
 - Short-lived WebSocket status connection instead of a permanently connected control client
 - Cached live-stack preview from the DWARF 3 local stack-image endpoint
+- On-demand **Tele Live** RTSP camera in Home Assistant
+- On-demand **Wide Live** RTSP camera in Home Assistant
 - English and German UI translations
 - Local PenguAstro icon and logo assets for the Home Assistant UI
 
@@ -42,6 +44,8 @@ Each configured DWARF 3 creates one Home Assistant device with these entities:
 | Storage total | Total storage reported by the telescope |
 | Focus position | Current focus motor position |
 | Live stack preview | Cached JPEG preview of the currently building astro stack |
+| Tele Live | Live RTSP view from the telephoto lens (`ch0`) |
+| Wide Live | Live RTSP view from the wide-angle lens (`ch1`) |
 
 The live-stack camera does **not** open a permanent video stream in Home Assistant. While stacking is active, PenguAstro tries to fetch one current JPEG from `http://<DWARF-IP>:8092/mainstream` on every update cycle and keeps the last successful image in memory. When stacking stops, the last successful preview remains visible. This gives a dashboard view that gradually improves as the telescope adds more frames. DWARFLAB documents this HTTP stack stream primarily for the tele-photo Astro stack.
 
@@ -55,6 +59,17 @@ PenguAstro creates a **camera entity** named **Live stack preview** (`camera.*_l
 - To show it on a dashboard, add a **Picture Entity** / camera card and select the PenguAstro live-stack camera.
 
 Before the first successful Astro stacking image is received, the entity exists but may have no picture to display. Once stacking is running, the cached image is refreshed with the configured PenguAstro update interval (60 seconds by default).
+
+### Tele and Wide live cameras
+
+PenguAstro v0.1.2 also creates two normal live camera entities:
+
+- **Tele Live** – `rtsp://<DWARF-IP>/ch0/stream0`
+- **Wide Live** – `rtsp://<DWARF-IP>/ch1/stream0`
+
+These are exposed to Home Assistant as on-demand RTSP camera sources. PenguAstro does not open either RTSP stream as part of its 60-second polling cycle. Home Assistant requests the stream when a live camera view or preview needs it.
+
+The DWARF 3 only provides these RTSP feeds after **LIVE** has been started in the official DWARFLAB app. When an Astro session starts, DWARFLAB stops the normal RTSP feeds; use **Live stack preview** instead while Astro stacking is active. The official DWARFLAB documentation identifies `ch1` as the wide-angle stream and documents both `ch0` and `ch1` as the two lens streams.
 
 ## Network requirements
 
@@ -75,6 +90,7 @@ PenguAstro uses these local TCP ports:
 | `8082` | HTTP device information / setup validation |
 | `8092` | Live-stack preview image |
 | `9900` | Read-only WebSocket status snapshot |
+| `554` | Tele/Wide RTSP live video |
 
 If the DWARF 3 is in an IoT VLAN and Home Assistant is in another VLAN, add firewall rules that allow **Home Assistant → DWARF 3** on these ports.
 
@@ -94,7 +110,7 @@ PenguAstro therefore deliberately does **not** keep port `9900` open:
 
 With the default 60-second interval, the WebSocket is normally open only very briefly. Even so, a short overlap with the official app is still possible. If the DWARFLAB app behaves strangely while PenguAstro is enabled, increase the PenguAstro update interval or temporarily disable/reload the integration while actively controlling the telescope.
 
-PenguAstro v0.1.1 sends **no motor, focus, camera, GoTo, stacking-start/stop or power-control commands**.
+PenguAstro v0.1.2 sends **no motor, focus, camera, GoTo, stacking-start/stop or power-control commands**. The additional RTSP camera entities are read-only video sources.
 
 ## HACS installation
 
@@ -148,11 +164,11 @@ For that reason, and because the DWARF local APIs are designed for trusted local
 
 - keep the telescope on a trusted LAN or isolated IoT VLAN,
 - only allow the Home Assistant host / management clients to reach the required ports,
-- never port-forward `8082`, `8092` or `9900` from the Internet.
+- never port-forward `554`, `8082`, `8092` or `9900` from the Internet.
 
 ## Compatibility
 
-PenguAstro v0.1.1 targets **Home Assistant 2026.6 or newer**. Initial development and protocol validation were performed against a **DWARF 3 running firmware 1.5.2**. The community SDK used as a protocol reference reports real-hardware verification for DWARF 3 firmware 1.5.x.
+PenguAstro v0.1.2 targets **Home Assistant 2026.6 or newer**. Initial development and protocol validation were performed against a **DWARF 3 running firmware 1.5.2**. The community SDK used as a protocol reference reports real-hardware verification for DWARF 3 firmware 1.5.x.
 
 The DWARF protocol is not an official public API and may change with future firmware. If a firmware update breaks PenguAstro, please open an issue and include the DWARF firmware version and Home Assistant version.
 
@@ -163,6 +179,7 @@ PenguAstro uses the DWARF 3 local interfaces only:
 - HTTP `:8082` for safe device identification
 - WebSocket `:9900` for the read-only `TASK_GET_DEVICE_STATE_INFO` (`16405`) snapshot
 - HTTP `:8092/mainstream` for the progressively improving live-stack image
+- RTSP `:554/ch0/stream0` for Tele Live and `:554/ch1/stream0` for Wide Live
 
 The status protocol is protobuf over WebSocket. PenguAstro contains a small, purpose-built decoder for the fields needed by the monitoring entities; no Node.js service, external bridge or cloud account is required.
 

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.2
+
+- Added **Tele Live** camera using the DWARF 3 `ch0` RTSP stream.
+- Added **Wide Live** camera using the DWARF 3 `ch1` RTSP stream.
+- RTSP streams are exposed on demand and are not opened by the normal PenguAstro polling cycle.
+- Added Home Assistant `stream` dependency for native RTSP/HLS handling.
+- Documented that the official DWARFLAB app must have **LIVE** started before the RTSP feeds are available.
+- Documented that normal RTSP video stops during Astro sessions and the Live stack preview should be used instead.
+- Added TCP port `554` to the network/firewall documentation.
+
 ## 0.1.1
 
 - Fixed the **Live stack preview** camera platform not loading in Home Assistant.

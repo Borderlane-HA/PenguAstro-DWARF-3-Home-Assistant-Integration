@@ -43,20 +43,50 @@
   },
   "entity": {
     "sensor": {
-      "status": {"name": "Status"},
-      "battery": {"name": "Battery"},
-      "shooting_mode": {"name": "Shooting mode"},
-      "tele_stacking": {"name": "Tele stacking"},
-      "wide_stacking": {"name": "Wide stacking"},
-      "temperature": {"name": "Device temperature"},
-      "tele_cmos_temperature": {"name": "Tele CMOS temperature"},
-      "wide_cmos_temperature": {"name": "Wide CMOS temperature"},
-      "storage_available": {"name": "Storage available"},
-      "storage_total": {"name": "Storage total"},
-      "focus_position": {"name": "Focus position"}
+      "status": {
+        "name": "Status"
+      },
+      "battery": {
+        "name": "Battery"
+      },
+      "shooting_mode": {
+        "name": "Shooting mode"
+      },
+      "tele_stacking": {
+        "name": "Tele stacking"
+      },
+      "wide_stacking": {
+        "name": "Wide stacking"
+      },
+      "temperature": {
+        "name": "Device temperature"
+      },
+      "tele_cmos_temperature": {
+        "name": "Tele CMOS temperature"
+      },
+      "wide_cmos_temperature": {
+        "name": "Wide CMOS temperature"
+      },
+      "storage_available": {
+        "name": "Storage available"
+      },
+      "storage_total": {
+        "name": "Storage total"
+      },
+      "focus_position": {
+        "name": "Focus position"
+      }
     },
     "camera": {
-      "live_stack_preview": {"name": "Live stack preview"}
+      "live_stack_preview": {
+        "name": "Live stack preview"
+      },
+      "tele_live": {
+        "name": "Tele Live"
+      },
+      "wide_live": {
+        "name": "Wide Live"
+      }
     }
   }
 }

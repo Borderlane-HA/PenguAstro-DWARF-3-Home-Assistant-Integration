@@ -1,8 +1,8 @@
-"""Cached live-stack preview camera for PenguAstro."""
+"""Camera entities for PenguAstro."""
 
 from __future__ import annotations
 
-from homeassistant.components.camera import Camera
+from homeassistant.components.camera import Camera, CameraEntityFeature
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
@@ -18,26 +18,34 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up live-stack preview camera."""
+    """Set up PenguAstro camera entities."""
     coordinator: PenguAstroCoordinator = hass.data[DOMAIN][entry.entry_id]
-    async_add_entities([PenguAstroLiveStackCamera(coordinator, entry)])
+    async_add_entities(
+        [
+            PenguAstroLiveStackCamera(coordinator, entry),
+            PenguAstroRTSPCamera(coordinator, entry, "tele_live", 0),
+            PenguAstroRTSPCamera(coordinator, entry, "wide_live", 1),
+        ]
+    )
 
 
-class PenguAstroLiveStackCamera(CoordinatorEntity[PenguAstroCoordinator], Camera):
-    """Camera entity serving the most recently cached stack JPEG."""
+class PenguAstroCameraBase(CoordinatorEntity[PenguAstroCoordinator], Camera):
+    """Shared base class for PenguAstro camera entities."""
 
     _attr_has_entity_name = True
-    _attr_translation_key = "live_stack_preview"
-    _attr_icon = "mdi:telescope"
     _attr_is_on = True
     _attr_is_recording = False
-    _attr_is_streaming = False
 
-    def __init__(self, coordinator: PenguAstroCoordinator, entry: ConfigEntry) -> None:
+    def __init__(
+        self,
+        coordinator: PenguAstroCoordinator,
+        entry: ConfigEntry,
+        unique_suffix: str,
+    ) -> None:
         CoordinatorEntity.__init__(self, coordinator)
         Camera.__init__(self)
         device_id = entry.unique_id or entry.entry_id
-        self._attr_unique_id = f"{device_id}_live_stack_preview"
+        self._attr_unique_id = f"{device_id}_{unique_suffix}"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, device_id)},
             name=entry.title,
@@ -45,6 +53,17 @@ class PenguAstroLiveStackCamera(CoordinatorEntity[PenguAstroCoordinator], Camera
             model="DWARF 3",
             sw_version=entry.data.get("firmware"),
         )
+
+
+class PenguAstroLiveStackCamera(PenguAstroCameraBase):
+    """Camera entity serving the most recently cached stack JPEG."""
+
+    _attr_translation_key = "live_stack_preview"
+    _attr_icon = "mdi:telescope"
+    _attr_is_streaming = False
+
+    def __init__(self, coordinator: PenguAstroCoordinator, entry: ConfigEntry) -> None:
+        super().__init__(coordinator, entry, "live_stack_preview")
 
     async def async_camera_image(
         self, width: int | None = None, height: int | None = None
@@ -60,3 +79,33 @@ class PenguAstroLiveStackCamera(CoordinatorEntity[PenguAstroCoordinator], Camera
         if self.coordinator.data is None or self.coordinator.data.image_updated is None:
             return {}
         return {"last_image_update": self.coordinator.data.image_updated.isoformat()}
+
+
+class PenguAstroRTSPCamera(PenguAstroCameraBase):
+    """On-demand RTSP camera for the DWARF 3 tele or wide lens."""
+
+    _attr_supported_features = CameraEntityFeature.STREAM
+    _attr_icon = "mdi:video"
+
+    def __init__(
+        self,
+        coordinator: PenguAstroCoordinator,
+        entry: ConfigEntry,
+        translation_key: str,
+        channel: int,
+    ) -> None:
+        super().__init__(coordinator, entry, translation_key)
+        self._attr_translation_key = translation_key
+        self._channel = channel
+
+    @property
+    def use_stream_for_stills(self) -> bool:
+        """Generate still previews from the RTSP stream when requested."""
+        return True
+
+    async def stream_source(self) -> str | None:
+        """Return the local DWARF 3 RTSP source."""
+        host = self.coordinator.api.host
+        if ":" in host and not host.startswith("["):
+            host = f"[{host}]"
+        return f"rtsp://{host}/ch{self._channel}/stream0"
