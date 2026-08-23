@@ -1,30 +1,50 @@
 # Changelog
 
+## 0.3.0
+
+Combined Monitoring+ and Astro Dashboard release.
+
+### Added
+
+- Target-name sensor from GoTo/tracking/stacking telemetry when available.
+- Active-camera sensor.
+- Home Assistant runtime session-duration sensor.
+- Tele/Wide live-stacking frame counters, target frame counts and shooting-time sensors when progress notification `15209` is observed.
+- Storage-used percentage sensor.
+- Mount/body-mode diagnostic sensor.
+- Last calibration azimuth/altitude diagnostic sensors when reported by the DWARF.
+- Last-seen timestamp.
+- Last-stack-image-update timestamp.
+- Firmware and configured-IP diagnostic sensors.
+- Connectivity, imaging, stacking, tracking, GoTo and autofocus binary sensors.
+- Sanitized Home Assistant diagnostics download.
+- Useful activity/target/frame metadata on the Live stack preview camera entity.
+
+### Changed
+
+- Expanded status decoding for camera, focus and motion operations.
+- Target names are decoded from Astro GoTo/tracking state when the device reports them.
+- Live-stacking progress is collected opportunistically during the existing short-lived status WebSocket connection; PenguAstro still does not hold a permanent WebSocket connection.
+- Last observed per-camera stacking progress is retained while that camera continues stacking.
+- README expanded with Astro dashboard guidance, progress limitations, device-password behavior and diagnostics details.
+
+### Safety / compatibility
+
+- Still read-only: no GoTo, motor, focus, capture, filter or power-control commands are sent.
+- Existing GUI configuration, multiple-instance support and IP reconfiguration remain unchanged.
+- Existing v0.1.x entity unique IDs are preserved for the original entities.
+
 ## 0.1.2
 
-- Added **Tele Live** camera using the DWARF 3 `ch0` RTSP stream.
-- Added **Wide Live** camera using the DWARF 3 `ch1` RTSP stream.
-- RTSP streams are exposed on demand and are not opened by the normal PenguAstro polling cycle.
-- Added Home Assistant `stream` dependency for native RTSP/HLS handling.
-- Documented that the official DWARFLAB app must have **LIVE** started before the RTSP feeds are available.
-- Documented that normal RTSP video stops during Astro sessions and the Live stack preview should be used instead.
-- Added TCP port `554` to the network/firewall documentation.
+- Added Tele Live and Wide Live RTSP camera entities.
+- Added Home Assistant stream support for on-demand RTSP viewing.
+- Documented RTSP behavior and port 554.
 
 ## 0.1.1
 
-- Fixed the **Live stack preview** camera platform not loading in Home Assistant.
-- Added local PenguAstro brand assets (`icon.png` / `logo.png`, including 2x and dark variants) for Home Assistant 2026.3+.
-- Added clearer README instructions for locating the live-stack camera and adding it to a dashboard.
-- Clarified that the DWARFLAB HTTP stacking stream is primarily intended for the tele-photo Astro stack.
+- Fixed Live stack preview camera platform loading.
+- Added local Home Assistant brand icon/logo assets.
 
 ## 0.1.0
 
 - Initial PenguAstro release.
-- GUI setup by local DWARF 3 IP address.
-- Reconfigure flow for IP address changes.
-- Multiple DWARF 3 instances supported and identified by MAC address.
-- 60-second default read-only status polling with short-lived WebSocket connections.
-- Battery, activity, shooting mode, Tele/Wide stacking state, temperatures, storage and focus sensors.
-- Cached live-stack preview from port 8092 while stacking is active, refreshed with the coordinator interval and retained afterwards.
-- English and German translations.
-- HACS custom-repository metadata and installation documentation.

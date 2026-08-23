@@ -11,7 +11,7 @@ from .api import PenguAstroApi
 from .const import DOMAIN
 from .coordinator import PenguAstroCoordinator
 
-PLATFORMS = [Platform.SENSOR, Platform.CAMERA]
+PLATFORMS = [Platform.SENSOR, Platform.BINARY_SENSOR, Platform.CAMERA]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:

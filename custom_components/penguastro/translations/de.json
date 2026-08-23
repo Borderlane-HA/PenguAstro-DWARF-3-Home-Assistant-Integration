@@ -52,11 +52,38 @@
       "shooting_mode": {
         "name": "Aufnahmemodus"
       },
+      "target_name": {
+        "name": "Ziel"
+      },
+      "active_camera": {
+        "name": "Aktive Kamera"
+      },
+      "session_duration": {
+        "name": "Sessiondauer"
+      },
       "tele_stacking": {
         "name": "Tele-Stacking"
       },
       "wide_stacking": {
         "name": "Wide-Stacking"
+      },
+      "tele_stack_frames": {
+        "name": "Tele-Stack-Frames"
+      },
+      "tele_stack_target_frames": {
+        "name": "Tele-Zielframes"
+      },
+      "tele_stack_shooting_time": {
+        "name": "Tele-Stacking-Zeit"
+      },
+      "wide_stack_frames": {
+        "name": "Wide-Stack-Frames"
+      },
+      "wide_stack_target_frames": {
+        "name": "Wide-Zielframes"
+      },
+      "wide_stack_shooting_time": {
+        "name": "Wide-Stacking-Zeit"
       },
       "temperature": {
         "name": "Gerätetemperatur"
@@ -73,8 +100,32 @@
       "storage_total": {
         "name": "Speicher gesamt"
       },
+      "storage_used_percent": {
+        "name": "Speicher belegt"
+      },
       "focus_position": {
         "name": "Fokusposition"
+      },
+      "body_mode": {
+        "name": "Montierungsmodus"
+      },
+      "calibration_azimuth": {
+        "name": "Kalibrierungs-Azimut"
+      },
+      "calibration_altitude": {
+        "name": "Kalibrierungs-Höhe"
+      },
+      "last_seen": {
+        "name": "Zuletzt gesehen"
+      },
+      "last_stack_image_update": {
+        "name": "Letztes Stack-Bild"
+      },
+      "firmware": {
+        "name": "Firmware"
+      },
+      "ip_address": {
+        "name": "IP-Adresse"
       }
     },
     "camera": {
@@ -86,6 +137,26 @@
       },
       "wide_live": {
         "name": "Wide Live"
+      }
+    },
+    "binary_sensor": {
+      "connected": {
+        "name": "Verbunden"
+      },
+      "imaging": {
+        "name": "Aufnahme aktiv"
+      },
+      "stacking": {
+        "name": "Stacking aktiv"
+      },
+      "tracking": {
+        "name": "Tracking aktiv"
+      },
+      "goto": {
+        "name": "GoTo aktiv"
+      },
+      "autofocus": {
+        "name": "Autofokus aktiv"
       }
     }
   }

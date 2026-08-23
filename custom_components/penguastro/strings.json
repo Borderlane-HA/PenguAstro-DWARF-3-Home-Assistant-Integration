@@ -52,11 +52,38 @@
       "shooting_mode": {
         "name": "Shooting mode"
       },
+      "target_name": {
+        "name": "Target"
+      },
+      "active_camera": {
+        "name": "Active camera"
+      },
+      "session_duration": {
+        "name": "Session duration"
+      },
       "tele_stacking": {
         "name": "Tele stacking"
       },
       "wide_stacking": {
         "name": "Wide stacking"
+      },
+      "tele_stack_frames": {
+        "name": "Tele stack frames"
+      },
+      "tele_stack_target_frames": {
+        "name": "Tele target frames"
+      },
+      "tele_stack_shooting_time": {
+        "name": "Tele stacking time"
+      },
+      "wide_stack_frames": {
+        "name": "Wide stack frames"
+      },
+      "wide_stack_target_frames": {
+        "name": "Wide target frames"
+      },
+      "wide_stack_shooting_time": {
+        "name": "Wide stacking time"
       },
       "temperature": {
         "name": "Device temperature"
@@ -73,8 +100,32 @@
       "storage_total": {
         "name": "Storage total"
       },
+      "storage_used_percent": {
+        "name": "Storage used"
+      },
       "focus_position": {
         "name": "Focus position"
+      },
+      "body_mode": {
+        "name": "Mount mode"
+      },
+      "calibration_azimuth": {
+        "name": "Calibration azimuth"
+      },
+      "calibration_altitude": {
+        "name": "Calibration altitude"
+      },
+      "last_seen": {
+        "name": "Last seen"
+      },
+      "last_stack_image_update": {
+        "name": "Last stack image update"
+      },
+      "firmware": {
+        "name": "Firmware"
+      },
+      "ip_address": {
+        "name": "IP address"
       }
     },
     "camera": {
@@ -86,6 +137,26 @@
       },
       "wide_live": {
         "name": "Wide Live"
+      }
+    },
+    "binary_sensor": {
+      "connected": {
+        "name": "Connected"
+      },
+      "imaging": {
+        "name": "Imaging"
+      },
+      "stacking": {
+        "name": "Stacking"
+      },
+      "tracking": {
+        "name": "Tracking"
+      },
+      "goto": {
+        "name": "GoTo"
+      },
+      "autofocus": {
+        "name": "Autofocus"
       }
     }
   }

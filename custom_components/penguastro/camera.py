@@ -74,11 +74,31 @@ class PenguAstroLiveStackCamera(PenguAstroCameraBase):
         return self.coordinator.data.image
 
     @property
-    def extra_state_attributes(self) -> dict[str, str]:
-        """Expose timestamp of the cached preview."""
-        if self.coordinator.data is None or self.coordinator.data.image_updated is None:
+    def extra_state_attributes(self) -> dict[str, object]:
+        """Expose useful dashboard metadata for the cached preview."""
+        if self.coordinator.data is None:
             return {}
-        return {"last_image_update": self.coordinator.data.image_updated.isoformat()}
+
+        data = self.coordinator.data
+        status = data.status
+        attrs: dict[str, object] = {
+            "activity": status.activity,
+            "target": status.target_name,
+            "active_camera": status.active_camera,
+        }
+        if data.image_updated is not None:
+            attrs["last_image_update"] = data.image_updated.isoformat()
+
+        if status.tele_stacking_state in (1, 2) and status.tele_progress is not None:
+            attrs["current_frames"] = status.tele_progress.current_count
+            attrs["target_frames"] = status.tele_progress.total_count
+            attrs["stack_camera"] = "Tele"
+        elif status.wide_stacking_state in (1, 2) and status.wide_progress is not None:
+            attrs["current_frames"] = status.wide_progress.current_count
+            attrs["target_frames"] = status.wide_progress.total_count
+            attrs["stack_camera"] = "Wide"
+
+        return {key: value for key, value in attrs.items() if value is not None}
 
 
 class PenguAstroRTSPCamera(PenguAstroCameraBase):

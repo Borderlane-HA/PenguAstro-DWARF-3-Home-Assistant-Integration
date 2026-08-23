@@ -4,7 +4,7 @@ from typing import Final
 
 DOMAIN: Final = "penguastro"
 NAME: Final = "PenguAstro"
-VERSION: Final = "0.1.2"
+VERSION: Final = "0.3.0"
 
 CONF_UPDATE_INTERVAL: Final = "update_interval"
 DEFAULT_UPDATE_INTERVAL: Final = 60
@@ -15,7 +15,7 @@ HTTP_PORT: Final = 8082
 STACK_IMAGE_PORT: Final = 8092
 WS_PORT: Final = 9900
 
-PLATFORMS: Final = ["sensor", "camera"]
+PLATFORMS: Final = ["sensor", "binary_sensor", "camera"]
 
 SHOOTING_MODES: Final[dict[int, str]] = {
     1: "Normal",
@@ -35,4 +35,5 @@ OPERATION_STATES: Final[dict[int, str]] = {
     1: "running",
     2: "stopping",
     3: "stopped",
+    4: "plate_solving",
 }
