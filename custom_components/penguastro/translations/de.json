@@ -1,0 +1,62 @@
+{
+  "title": "PenguAstro",
+  "config": {
+    "step": {
+      "user": {
+        "title": "DWARF 3 hinzufügen",
+        "description": "Gib die lokale IP-Adresse des DWARF 3 ein. Home Assistant muss das Teleskop im lokalen Netzwerk erreichen können.",
+        "data": {
+          "host": "IP-Adresse"
+        }
+      },
+      "reconfigure": {
+        "title": "DWARF-3-Adresse ändern",
+        "description": "Gib die neue lokale IP-Adresse dieses DWARF 3 ein.",
+        "data": {
+          "host": "IP-Adresse"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung zum DWARF 3 nicht möglich.",
+      "not_dwarf3": "Das Gerät identifiziert sich nicht als DWARF 3.",
+      "invalid_response": "Der DWARF 3 hat eine unerwartete Antwort geliefert.",
+      "different_device": "Diese IP-Adresse gehört zu einem anderen DWARF 3.",
+      "unknown": "Unerwarteter Fehler. Prüfe die Home-Assistant-Protokolle."
+    },
+    "abort": {
+      "already_configured": "Dieser DWARF 3 ist bereits eingerichtet.",
+      "different_device": "Die gewählte Adresse gehört zu einem anderen DWARF 3.",
+      "reconfigure_successful": "Die DWARF-3-Konfiguration wurde erfolgreich aktualisiert."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "PenguAstro-Optionen",
+        "description": "Lege fest, wie oft PenguAstro Statusdaten liest und das zwischengespeicherte Live-Stack-Bild aktualisiert.",
+        "data": {
+          "update_interval": "Aktualisierungsintervall (Sekunden)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "status": {"name": "Status"},
+      "battery": {"name": "Akku"},
+      "shooting_mode": {"name": "Aufnahmemodus"},
+      "tele_stacking": {"name": "Tele-Stacking"},
+      "wide_stacking": {"name": "Wide-Stacking"},
+      "temperature": {"name": "Gerätetemperatur"},
+      "tele_cmos_temperature": {"name": "Tele-CMOS-Temperatur"},
+      "wide_cmos_temperature": {"name": "Wide-CMOS-Temperatur"},
+      "storage_available": {"name": "Speicher frei"},
+      "storage_total": {"name": "Speicher gesamt"},
+      "focus_position": {"name": "Fokusposition"}
+    },
+    "camera": {
+      "live_stack_preview": {"name": "Live-Stack-Vorschau"}
+    }
+  }
+}

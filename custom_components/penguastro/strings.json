@@ -1,0 +1,62 @@
+{
+  "title": "PenguAstro",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add a DWARF 3",
+        "description": "Enter the local IP address of the DWARF 3. Home Assistant must be able to reach the telescope on the local network.",
+        "data": {
+          "host": "IP address"
+        }
+      },
+      "reconfigure": {
+        "title": "Change DWARF 3 address",
+        "description": "Enter the new local IP address for this DWARF 3.",
+        "data": {
+          "host": "IP address"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to the DWARF 3.",
+      "not_dwarf3": "The device does not identify as a DWARF 3.",
+      "invalid_response": "The DWARF 3 returned an unexpected response.",
+      "different_device": "This IP address belongs to a different DWARF 3.",
+      "unknown": "Unexpected error. Check the Home Assistant logs."
+    },
+    "abort": {
+      "already_configured": "This DWARF 3 is already configured.",
+      "different_device": "The selected address belongs to a different DWARF 3.",
+      "reconfigure_successful": "The DWARF 3 configuration was updated successfully."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "PenguAstro options",
+        "description": "Choose how often PenguAstro reads status data and refreshes the cached live-stack preview.",
+        "data": {
+          "update_interval": "Update interval (seconds)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "status": {"name": "Status"},
+      "battery": {"name": "Battery"},
+      "shooting_mode": {"name": "Shooting mode"},
+      "tele_stacking": {"name": "Tele stacking"},
+      "wide_stacking": {"name": "Wide stacking"},
+      "temperature": {"name": "Device temperature"},
+      "tele_cmos_temperature": {"name": "Tele CMOS temperature"},
+      "wide_cmos_temperature": {"name": "Wide CMOS temperature"},
+      "storage_available": {"name": "Storage available"},
+      "storage_total": {"name": "Storage total"},
+      "focus_position": {"name": "Focus position"}
+    },
+    "camera": {
+      "live_stack_preview": {"name": "Live stack preview"}
+    }
+  }
+}
