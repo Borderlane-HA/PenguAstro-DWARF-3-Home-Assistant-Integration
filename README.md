@@ -1,5 +1,9 @@
 # PenguAstro – DWARF 3 Home Assistant Integration
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Borderlane-HA/PenguAstro-DWARF-3-Home-Assistant-Integration/main/brand/logo.png" alt="PenguAstro" width="560">
+</p>
+
 PenguAstro is a local, read-only Home Assistant integration for the **DWARFLAB DWARF 3 Smart Telescope**.
 
 It brings telescope status, battery and temperature monitoring, Astro session information, stacking progress when available, normal Tele/Wide live streams, and a progressively updated live-stack preview into Home Assistant.
