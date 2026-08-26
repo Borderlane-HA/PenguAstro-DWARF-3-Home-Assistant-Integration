@@ -182,8 +182,8 @@ class PenguAstroApi:
             raise PenguAstroProtocolError("Invalid /deviceInfo response")
 
         name = str(data.get("deviceName") or "DWARF 3")
-        if "DWARF3" not in name.upper().replace(" ", ""):
-            raise PenguAstroProtocolError("The device does not identify as DWARF 3")
+        if "DWARF3" not in name.upper().replace(" ", "") and "DWARF_MINI" not in name.upper().replace(" ", ""):
+            raise PenguAstroProtocolError("The device does not identify as DWARF 3 or DWARF mini")
 
         # Deliberately do NOT keep/log devicePwd, staWifiPwd, SN or BLE service IDs.
         mac_raw = data.get("macAddress") or data.get("mac")

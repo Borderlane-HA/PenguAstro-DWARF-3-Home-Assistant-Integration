@@ -1,0 +1,163 @@
+{
+  "title": "PenguAstro",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Dodaj teleskop DWARF",
+        "description": "Wprowadź lokalny adres IP teleskopu DWARF. Home Assistant musi mieć możliwość połączenia się z teleskopem w sieci lokalnej.",
+        "data": {
+          "host": "Adres IP"
+        }
+      },
+      "reconfigure": {
+        "title": "Zmień adres teleskopu DWARF",
+        "description": "Wprowadź nowy lokalny adres IP dla tego teleskopu DWARF.",
+        "data": {
+          "host": "Adres IP"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Nie można połączyć się z teleskopem DWARF.",
+      "not_dwarf3": "Urządzenie nie identyfikuje się jako kompatybilny teleskop DWARF.",
+      "invalid_response": "Teleskop DWARF zwrócił nieoczekiwaną odpowiedź.",
+      "different_device": "Ten adres IP należy do innego teleskopu DWARF.",
+      "unknown": "Nieoczekiwany błąd. Sprawdź logi systemu Home Assistant."
+    },
+    "abort": {
+      "already_configured": "Ten teleskop DWARF jest już skonfigurowany.",
+      "different_device": "Wybrany adres należy do innego teleskopu DWARF.",
+      "reconfigure_successful": "Konfiguracja teleskopu DWARF została pomyślnie zaktualizowana."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opcje PenguAstro",
+        "description": "Wybierz, jak często PenguAstro ma odczytywać dane o statusie i odświeżać buforowany podgląd live-stackingu.",
+        "data": {
+          "update_interval": "Częstotliwość odświeżania (w sekundach)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "status": {
+        "name": "Status"
+      },
+      "battery": {
+        "name": "Bateria"
+      },
+      "shooting_mode": {
+        "name": "Tryb fotografowania"
+      },
+      "target_name": {
+        "name": "Obiekt docelowy"
+      },
+      "active_camera": {
+        "name": "Aktywna kamera"
+      },
+      "session_duration": {
+        "name": "Czas trwania sesji"
+      },
+      "tele_stacking": {
+        "name": "Live Stacking (wąski kadr)"
+      },
+      "wide_stacking": {
+        "name": "Live Stacking (szeroki kadr)"
+      },
+      "tele_stack_frames": {
+        "name": "Złożone klatki (wąski kadr)"
+      },
+      "tele_stack_target_frames": {
+        "name": "Docelowa liczba klatek (wąski kadr)"
+      },
+      "tele_stack_shooting_time": {
+        "name": "Czas stackowania (wąski kadr)"
+      },
+      "wide_stack_frames": {
+        "name": "Złożone klatki (szeroki kadr)"
+      },
+      "wide_stack_target_frames": {
+        "name": "Docelowa liczba klatek (szeroki kadr)"
+      },
+      "wide_stack_shooting_time": {
+        "name": "Czas stackowania (szeroki kadr)"
+      },
+      "temperature": {
+        "name": "Temperatura urządzenia"
+      },
+      "tele_cmos_temperature": {
+        "name": "Temperatura matrycy CMOS (wąski kadr)"
+      },
+      "wide_cmos_temperature": {
+        "name": "Temperatura matrycy CMOS (szeroki kadr)"
+      },
+      "storage_available": {
+        "name": "Dostępna pamięć"
+      },
+      "storage_total": {
+        "name": "Całkowita pojemność pamięci"
+      },
+      "storage_used_percent": {
+        "name": "Zapełnienie pamięci"
+      },
+      "focus_position": {
+        "name": "Pozycja ostrości"
+      },
+      "body_mode": {
+        "name": "Tryb pracy montażu"
+      },
+      "calibration_azimuth": {
+        "name": "Azymut kalibracji"
+      },
+      "calibration_altitude": {
+        "name": "Wysokość kalibracji"
+      },
+      "last_seen": {
+        "name": "Ostatnio widziany"
+      },
+      "last_stack_image_update": {
+        "name": "Ostatnia aktualizacja obrazu stacku"
+      },
+      "firmware": {
+        "name": "Oprogramowanie układowe"
+      },
+      "ip_address": {
+        "name": "Adres IP"
+      }
+    },
+    "camera": {
+      "live_stack_preview": {
+        "name": "Podgląd Live Stackingu"
+      },
+      "tele_live": {
+        "name": "Obraz na żywo (wąski kadr)"
+      },
+      "wide_live": {
+        "name": "Obraz na żywo (szeroki kadr)"
+      }
+    },
+    "binary_sensor": {
+      "connected": {
+        "name": "Połączony"
+      },
+      "imaging": {
+        "name": "Obrazowanie aktywne"
+      },
+      "stacking": {
+        "name": "Stackowanie"
+      },
+      "tracking": {
+        "name": "Śledzenie obiektu"
+      },
+      "goto": {
+        "name": "Naprowadzanie (GoTo)"
+      },
+      "autofocus": {
+        "name": "Autofokus"
+      }
+    }
+  }
+}
